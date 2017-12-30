@@ -1,22 +1,44 @@
 {
-  "name": "ogriner",
-  "version": "1.0.0",
-  "description": "Un système de gestion d'ogrines dofus par étude de marché",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/EpicKiwi/Ogriner.git"
-  },
   "author": "EpicKiwi <me@epickiwi.fr>",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/EpicKiwi/Ogriner/issues"
+  "name": "ogriner",
+  "description": "Un système de gestion d'ogrines Dofus par étude de marché",
+  "version": "0.0.1",
+  "engines": {
+    "node": ">=4.0.0"
   },
-  "homepage": "https://github.com/EpicKiwi/Ogriner#readme",
   "dependencies": {
-    "Bak-scrapper": "git+https://github.com/EpicKiwi/Bak-scrapper.git"
+    "actionhero": "17.1.1",
+    "bak-scrapper": "git+https://github.com/EpicKiwi/Bak-scrapper.git",
+    "fakeredis": "latest",
+    "ioredis": "latest",
+    "sequelize": "^4.28.6",
+    "ws": "latest"
+  },
+  "devDependencies": {
+    "chai": "^4.0.0",
+    "cross-env": "^5.0.5",
+    "dirty-chai": "^2.0.0",
+    "mocha": "^3.5.0",
+    "standard": "^10.0.3"
+  },
+  "scripts": {
+    "start": "actionhero start",
+    "actionhero": "actionhero",
+    "pretest": "standard",
+    "test": "cross-env NODE_ENV=test mocha"
+  },
+  "standard": {
+    "ignore": [
+      "public/javascript/actionheroClient.*"
+    ],
+    "globals": [
+      "describe",
+      "before",
+      "beforeEach",
+      "after",
+      "afterEach",
+      "it",
+      "expect"
+    ]
   }
 }
