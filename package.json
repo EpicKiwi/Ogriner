@@ -11,6 +11,7 @@
     "bak-scrapper": "git+https://github.com/EpicKiwi/Bak-scrapper.git",
     "fakeredis": "latest",
     "ioredis": "latest",
+    "pg": "^7.4.0",
     "sequelize": "^4.28.6",
     "ws": "latest"
   },

@@ -13,7 +13,7 @@ exports['default'] = {
       //  Be sure that every server you run has a unique ID (which will happen when generated dynamically)
       //  id: 'myActionHeroServer',
       // A unique token to your application that servers will use to authenticate to each other
-      serverToken: 'change-me',
+      serverToken: 'yHJ7BMeLmj3NvqSnxZjE',
       // the redis prefix for actionhero's cache objects
       cachePrefix: 'actionhero:cache:',
       // the redis prefix for actionhero's cache/lock objects

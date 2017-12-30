@@ -14,7 +14,7 @@ exports.status = {
 
   outputExample: {
     'id': '192.168.2.11',
-    'actionheroVersion': '9.4.1',
+    'frameworkVersion': '9.4.1',
     'uptime': 10469
   },
 
@@ -70,7 +70,7 @@ exports.status = {
     data.response.problems = []
 
     data.response.id = api.id
-    data.response.actionheroVersion = api.actionheroVersion
+    data.response.frameworkVersion = api.actionheroVersion
     data.response.uptime = new Date().getTime() - api.bootTime
     data.response.name = packageJSON.name
     data.response.description = packageJSON.description
