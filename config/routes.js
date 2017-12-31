@@ -33,7 +33,8 @@ exports['default'] = {
       ],
 
       post: [
-          {path: "/users", action: "addUser"}
+          {path: "/users", action: "addUser"},
+          {path: "/auth", action: "authenticate"}
       ],
 
       delete: [

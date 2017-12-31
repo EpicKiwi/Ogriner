@@ -14,7 +14,7 @@ exports['default'] = {
       objectNotation: true,
 
       // should actionhero append any missing translations to the locale file?
-      updateFiles: true,
+      updateFiles: false,
 
       // this will configure logging and error messages in the log(s)
       defaultLocale: 'en',

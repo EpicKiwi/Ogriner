@@ -3,7 +3,7 @@ const ActionHero = require('actionhero')
 const Sequelize = require("sequelize")
 const crypto = require("crypto")
 
-module.exports = class MyInitializer extends ActionHero.Initializer {
+module.exports = class UserInitializer extends ActionHero.Initializer {
   constructor () {
     super()
     this.name = 'user'
@@ -15,8 +15,9 @@ module.exports = class MyInitializer extends ActionHero.Initializer {
   async initialize () {
     ActionHero.api['user'] = {
         model: ActionHero.api.database.define("user", {
-            email: { type: Sequelize.STRING },
-            password: { type: Sequelize.STRING }
+            email: {type: Sequelize.STRING},
+            password: {type: Sequelize.STRING},
+            role: {type: Sequelize.ENUM("User","Admin")}
         }),
         hashPassword(rawPassword) {
             const hash = crypto.createHash("sha256")

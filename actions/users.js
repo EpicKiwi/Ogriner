@@ -44,10 +44,12 @@ exports.OneUser = class OneUser extends ActionHero.Action {
         }
     }
 
-    async run ({response,params}) {
+    async run ({response,params,connection}) {
         let user = await ActionHero.api.user.model.findById(params.id)
-        if(!user)
-          throw new Error(`User ${params.id} not found`)
+        if(!user) {
+            connection.setStatusCode(404)
+            throw new Error(connection.localize("User not found"))
+        }
         user.password = undefined
         response.user = user
     }
@@ -71,9 +73,11 @@ exports.AddUser = class AddUser extends ActionHero.Action {
         this.inputs = {
             email: {
               required: true,
-              validator(param){
-                if(!param.match(/.+@.+\..+/))
-                  throw new Error("Must be a valid email address")
+              validator(param,connection){
+                if(!param.match(/.+@.+\..+/)) {
+                    connection.setStatusCode(400)
+                    throw new Error(connection.localize("Must be a valid email address"))
+                }
               }
             },
             password: {
@@ -85,13 +89,16 @@ exports.AddUser = class AddUser extends ActionHero.Action {
         }
     }
 
-    async run ({response,params}) {
+    async run ({response,params,connection}) {
       let existingUser = await ActionHero.api.user.model.findOne({where:{email: params.email}})
-      if(existingUser)
-        throw new Error("A user already exists with this email")
+      if(existingUser) {
+          connection.setStatusCode(400)
+          throw new Error(connection.localize("A user already exists with this email"))
+      }
       let user = await ActionHero.api.user.model.create({
           email: params.email,
-          password: params.password
+          password: params.password,
+          role: "User"
       })
       user.password = undefined
       response.user = user
@@ -116,10 +123,12 @@ exports.DeleteUser = class DeleteUser extends ActionHero.Action {
         }
     }
 
-    async run ({response,params}) {
+    async run ({response,params,connection}) {
         let user = await ActionHero.api.user.model.findById(params.id)
-        if(!user)
-            throw new Error(`User ${params.id} not found`)
+        if(!user) {
+            connection.setStatusCode(404)
+            throw new Error(connection.localize("User not found"))
+        }
         await user.destroy()
         user.password = undefined
         response.user = user
