@@ -25,7 +25,7 @@ module.exports = class AuthTokenInitializer extends ActionHero.Initializer {
       }
     }
 
-    ActionHero.api.authToken.model.belongsTo(ActionHero.api.user.model)
+    ActionHero.api.user.model.hasMany(ActionHero.api.authToken.model)
 
   }
 

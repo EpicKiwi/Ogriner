@@ -10,6 +10,10 @@ module.exports = class CipherInitilizer extends ActionHero.Initializer {
     this.loadPriority = 1010
     this.startPriority = 1010
     this.stopPriority = 1010
+    this.cipherKey = {
+      key: null,
+      fingerprint: null
+    }
   }
 
   async initialize () {
@@ -24,8 +28,10 @@ module.exports = class CipherInitilizer extends ActionHero.Initializer {
         generateKey() {
           let key = crypto.randomBytes(ActionHero.api.config.security.accountsCipher.keyLength)
               .toString("base64")
-          let fingerprint = crypto.createHash("sha256").update(key).digest("base64")
-          return {key:key,fingerprint:fingerprint}
+          return {key:key}
+        },
+        computeFingerprint(key){
+          return crypto.createHash("sha256").update(key).digest("base64")
         }
       }
 
@@ -38,6 +44,7 @@ module.exports = class CipherInitilizer extends ActionHero.Initializer {
     }
 
     this.cipherKey = JSON.parse(fs.readFileSync(keyLocation))
+    this.cipherKey.fingerprint = ActionHero.api.cipher.computeFingerprint(this.cipherKey.key)
     this.cipher = crypto.createCipher("aes128",this.cipherKey.key)
     this.decipher = crypto.createDecipher("aes128",this.cipherKey.key)
 
