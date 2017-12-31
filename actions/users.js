@@ -15,7 +15,13 @@ exports.UserList = class UserList extends ActionHero.Action {
                 "updatedAt": "2017-12-30T23:43:10.479Z"
             }
         ]}
+
+      this.auth = {
+          enabled: true,
+          admin: true
+      }
   }
+
 
   async run ({response}) {
     let users = await ActionHero.api.user.model.findAll()
@@ -42,6 +48,10 @@ exports.OneUser = class OneUser extends ActionHero.Action {
         this.inputs = {
             id: {required: true},
         }
+        this.auth = {
+            enabled: true,
+            admin: true
+        }
     }
 
     async run ({response,params,connection}) {
@@ -52,6 +62,26 @@ exports.OneUser = class OneUser extends ActionHero.Action {
         }
         user.password = undefined
         response.user = user
+    }
+}
+
+exports.SelfUser = class SelfUser extends ActionHero.Action {
+    constructor () {
+        super()
+        this.name = 'selfUser'
+        this.description = 'get the user associated to the token'
+        this.outputExample = {
+            "user": {
+                "id": 1,
+                "email": "me@epickiwi.fr",
+                "createdAt": "2017-12-30T23:43:05.570Z",
+                "updatedAt": "2017-12-30T23:43:10.479Z"
+            }
+        }
+    }
+
+    async run ({response,auth}) {
+        response.user = auth.user
     }
 }
 
@@ -87,6 +117,11 @@ exports.AddUser = class AddUser extends ActionHero.Action {
               }
             }
         }
+
+        this.auth = {
+            enabled: true,
+            admin: true
+        }
     }
 
     async run ({response,params,connection}) {
@@ -120,6 +155,11 @@ exports.DeleteUser = class DeleteUser extends ActionHero.Action {
         }
         this.inputs = {
             id: {required: true},
+        }
+
+        this.auth = {
+            enabled: true,
+            admin: true
         }
     }
 

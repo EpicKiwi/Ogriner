@@ -29,6 +29,7 @@ exports['default'] = {
 
       get: [
           {path: "/users", action: "userList"},
+          {path: "/users/me", action: "selfUser"},
           {path: "/users/:id", action: "oneUser"}
       ],
 

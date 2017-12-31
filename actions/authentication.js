@@ -6,7 +6,15 @@ exports.Authenticate = class Authenticate extends ActionHero.Action {
     super()
     this.name = 'authenticate'
     this.description = 'Authenticate a user and get an authentication token'
-    this.outputExample = {}
+    this.outputExample = {
+        "token": {
+            "token": "8534...1c86",
+            "expires": "2018-01-07T14:18:48.923Z",
+            "updatedAt": "2017-12-31T14:18:49.285Z",
+            "createdAt": "2017-12-31T14:18:48.925Z",
+            "userId": 1
+        }
+    }
       this.inputs = {
           email: {
               required: true,
@@ -23,6 +31,9 @@ exports.Authenticate = class Authenticate extends ActionHero.Action {
                   return ActionHero.api.user.hashPassword(param)
               }
           }
+      }
+      this.auth = {
+        enabled: false
       }
   }
 
