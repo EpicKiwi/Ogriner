@@ -19,11 +19,15 @@ module.exports = class CipherInitilizer extends ActionHero.Initializer {
   async initialize () {
 
       ActionHero.api['cipher'] = {
-        decryptString(encryptedString){
-          return this.cipher.update(encryptedString)
+        encryptString(encryptedString){
+          const cipher = crypto.createCipher("aes128",this.cipherKey.key)
+          cipher.update(new Buffer(encryptedString))
+          return cipher.final("base64")
         },
-        encryptString(rawString){
-          return this.decipher.update(rawString)
+        decryptString(rawString){
+          const decipher = crypto.createDecipher("aes128",this.cipherKey.key)
+          decipher.update(new Buffer(rawString,"base64"))
+          return decipher.final().toString()
         },
         generateKey() {
           let key = crypto.randomBytes(ActionHero.api.config.security.accountsCipher.keyLength)
@@ -43,10 +47,9 @@ module.exports = class CipherInitilizer extends ActionHero.Initializer {
       fs.writeFileSync(keyLocation,JSON.stringify(ActionHero.api.dofusAccount.generateKey()))
     }
 
-    this.cipherKey = JSON.parse(fs.readFileSync(keyLocation))
-    this.cipherKey.fingerprint = ActionHero.api.cipher.computeFingerprint(this.cipherKey.key)
-    this.cipher = crypto.createCipher("aes128",this.cipherKey.key)
-    this.decipher = crypto.createDecipher("aes128",this.cipherKey.key)
+    ActionHero.api['cipher'].cipherKey = JSON.parse(fs.readFileSync(keyLocation))
+    ActionHero.api['cipher'].cipherKey.fingerprint = ActionHero.api.cipher.computeFingerprint(
+        ActionHero.api['cipher'].cipherKey.key)
 
     ActionHero.api.log(`Loaded cipher key, fingerprint : ${this.cipherKey.fingerprint}`)
     ActionHero.api.cipher.fingerprint = this.cipherKey.fingerprint

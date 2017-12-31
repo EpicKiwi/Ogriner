@@ -30,16 +30,21 @@ exports['default'] = {
       get: [
           {path: "/users", action: "userList"},
           {path: "/users/me", action: "selfUser"},
-          {path: "/users/:id", action: "oneUser"}
+          {path: "/users/:id", action: "oneUser"},
+          {path: "/accounts", action: "selfAccounts"},
+          {path: "/accounts/all", action: "allAccounts"},
+          {path: "/accounts/:id", action: "getOneAccount"}
       ],
 
       post: [
           {path: "/users", action: "addUser"},
-          {path: "/auth", action: "authenticate"}
+          {path: "/auth", action: "authenticate"},
+          {path: "/accounts", action: "createOneAccount"}
       ],
 
       delete: [
-          {path: "/users/:id", action: "deleteUser"}
+          {path: "/users/:id", action: "deleteUser"},
+          {path: "/accounts/:id", action: "deleteOneAccount"}
       ]
 
     }

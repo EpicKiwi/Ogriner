@@ -29,23 +29,22 @@ module.exports = class MyInitializer extends ActionHero.Initializer {
           }
 
           let token = await ActionHero.api.authToken.model.findOne({where:{token:tokenString}})
+          if(!token){
+              connection.setStatusCode(401)
+              throw new Error(connection.localize("Invalid auth token"))
+          }
+
           let user = await token.getUser()
+          if(!user){
+              connection.setStatusCode(401)
+              throw new Error(connection.localize("No user associated to this token"))
+          }
 
           user.password = undefined
 
           data.auth = {
             token: token,
             user: user
-          }
-
-          if(!token){
-              connection.setStatusCode(401)
-              throw new Error(connection.localize("Invalid auth token"))
-          }
-
-          if(!user){
-              connection.setStatusCode(401)
-              throw new Error(connection.localize("No user associated to this token"))
           }
 
           if(token.expires < Date.now()){
