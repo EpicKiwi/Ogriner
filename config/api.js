@@ -3,7 +3,7 @@
 const path = require('path')
 
 exports['default'] = {
-  general: function (api) {
+  general: (api) => {
     const packageJSON = require(api.projectRoot + path.sep + 'package.json')
 
     return {
@@ -13,7 +13,7 @@ exports['default'] = {
       //  Be sure that every server you run has a unique ID (which will happen when generated dynamically)
       //  id: 'myActionHeroServer',
       // A unique token to your application that servers will use to authenticate to each other
-      serverToken: 'yHJ7BMeLmj3NvqSnxZjE',
+      serverToken: 'change-me',
       // the redis prefix for actionhero's cache objects
       cachePrefix: 'actionhero:cache:',
       // the redis prefix for actionhero's cache/lock objects
@@ -67,7 +67,7 @@ exports['default'] = {
 }
 
 exports.test = {
-  general: function (api) {
+  general: (api) => {
     return {
       id: 'test-server-' + process.pid,
       serverToken: 'serverToken-' + process.pid,
@@ -88,7 +88,7 @@ exports.test = {
 }
 
 exports.production = {
-  general: function (api) {
+  general: (api) => {
     return {
       fileRequestLogLevel: 'debug',
       developmentMode: false

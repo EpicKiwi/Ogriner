@@ -1,5 +1,5 @@
 exports['default'] = {
-    database: function (api) {
+    database: (api) => {
         return {
             host: process.env.DATABASE_HOST ? process.env.DATABASE_HOST : "localhost",
             port: process.env.DATABASE_PORT ? process.env.DATABASE_PORT : 5432,

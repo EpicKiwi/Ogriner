@@ -1,5 +1,5 @@
 exports['default'] = {
-  routes: function (api) {
+  routes: (api) => {
     return {
 
       /* ---------------------
@@ -26,6 +26,19 @@ exports['default'] = {
       ]
 
       ---------------------- */
+
+      get: [
+          {path: "/users", action: "userList"},
+          {path: "/users/:id", action: "oneUser"}
+      ],
+
+      post: [
+          {path: "/users", action: "addUser"}
+      ],
+
+      delete: [
+          {path: "/users/:id", action: "deleteUser"}
+      ]
 
     }
   }

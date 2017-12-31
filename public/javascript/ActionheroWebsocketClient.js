@@ -3311,7 +3311,7 @@ module.exports = Primus;
 
 ;;;
 (function(exports){ 
-var ActionheroClient = function (options, client) {
+var ActionheroWebsocketClient = function (options, client) {
   var self = this
 
   self.callbacks = {}
@@ -3334,12 +3334,12 @@ var ActionheroClient = function (options, client) {
 if (typeof Primus === 'undefined') {
   var util = require('util')
   var EventEmitter = require('events').EventEmitter
-  util.inherits(ActionheroClient, EventEmitter)
+  util.inherits(ActionheroWebsocketClient, EventEmitter)
 } else {
-  ActionheroClient.prototype = new Primus.EventEmitter()
+  ActionheroWebsocketClient.prototype = new Primus.EventEmitter()
 }
 
-ActionheroClient.prototype.defaults = function () {
+ActionheroWebsocketClient.prototype.defaults = function () {
   return { apiPath: '/api', url: window.location.origin }
 }
 
@@ -3347,7 +3347,7 @@ ActionheroClient.prototype.defaults = function () {
 // CONNECTION //
 // //////////////
 
-ActionheroClient.prototype.connect = function (callback) {
+ActionheroWebsocketClient.prototype.connect = function (callback) {
   var self = this
   self.messageCount = 0
 
@@ -3416,7 +3416,7 @@ ActionheroClient.prototype.connect = function (callback) {
   })
 }
 
-ActionheroClient.prototype.configure = function (callback) {
+ActionheroWebsocketClient.prototype.configure = function (callback) {
   var self = this
 
   self.rooms.forEach(function (room) {
@@ -3435,7 +3435,7 @@ ActionheroClient.prototype.configure = function (callback) {
 // MESSAGING //
 // /////////////
 
-ActionheroClient.prototype.send = function (args, callback) {
+ActionheroWebsocketClient.prototype.send = function (args, callback) {
   // primus will buffer messages when not connected
   var self = this
   self.messageCount++
@@ -3445,7 +3445,7 @@ ActionheroClient.prototype.send = function (args, callback) {
   self.client.write(args)
 }
 
-ActionheroClient.prototype.handleMessage = function (message) {
+ActionheroWebsocketClient.prototype.handleMessage = function (message) {
   var self = this
   self.emit('message', message)
   if (message.context === 'response') {
@@ -3469,7 +3469,7 @@ ActionheroClient.prototype.handleMessage = function (message) {
 // ACTIONS //
 // ///////////
 
-ActionheroClient.prototype.action = function (action, params, callback) {
+ActionheroWebsocketClient.prototype.action = function (action, params, callback) {
   if (!callback && typeof params === 'function') {
     callback = params
     params = null
@@ -3484,7 +3484,7 @@ ActionheroClient.prototype.action = function (action, params, callback) {
   }
 }
 
-ActionheroClient.prototype.actionWeb = function (params, callback) {
+ActionheroWebsocketClient.prototype.actionWeb = function (params, callback) {
   var xmlhttp = new XMLHttpRequest()
   xmlhttp.onreadystatechange = function () {
     var response
@@ -3517,7 +3517,7 @@ ActionheroClient.prototype.actionWeb = function (params, callback) {
   xmlhttp.send(JSON.stringify(params))
 }
 
-ActionheroClient.prototype.actionWebSocket = function (params, callback) {
+ActionheroWebsocketClient.prototype.actionWebSocket = function (params, callback) {
   this.send({event: 'action', params: params}, callback)
 }
 
@@ -3525,23 +3525,23 @@ ActionheroClient.prototype.actionWebSocket = function (params, callback) {
 // COMMANDS //
 // ////////////
 
-ActionheroClient.prototype.say = function (room, message, callback) {
+ActionheroWebsocketClient.prototype.say = function (room, message, callback) {
   this.send({event: 'say', room: room, message: message}, callback)
 }
 
-ActionheroClient.prototype.file = function (file, callback) {
+ActionheroWebsocketClient.prototype.file = function (file, callback) {
   this.send({event: 'file', file: file}, callback)
 }
 
-ActionheroClient.prototype.detailsView = function (callback) {
+ActionheroWebsocketClient.prototype.detailsView = function (callback) {
   this.send({event: 'detailsView'}, callback)
 }
 
-ActionheroClient.prototype.roomView = function (room, callback) {
+ActionheroWebsocketClient.prototype.roomView = function (room, callback) {
   this.send({event: 'roomView', room: room}, callback)
 }
 
-ActionheroClient.prototype.roomAdd = function (room, callback) {
+ActionheroWebsocketClient.prototype.roomAdd = function (room, callback) {
   var self = this
   self.send({event: 'roomAdd', room: room}, function (data) {
     self.configure(function () {
@@ -3550,7 +3550,7 @@ ActionheroClient.prototype.roomAdd = function (room, callback) {
   })
 }
 
-ActionheroClient.prototype.roomLeave = function (room, callback) {
+ActionheroWebsocketClient.prototype.roomLeave = function (room, callback) {
   var self = this
   var index = self.rooms.indexOf(room)
   if (index > -1) { self.rooms.splice(index, 1) }
@@ -3561,19 +3561,20 @@ ActionheroClient.prototype.roomLeave = function (room, callback) {
   })
 }
 
-ActionheroClient.prototype.documentation = function (callback) {
+ActionheroWebsocketClient.prototype.documentation = function (callback) {
   this.send({event: 'documentation'}, callback)
 }
 
-ActionheroClient.prototype.disconnect = function () {
+ActionheroWebsocketClient.prototype.disconnect = function () {
   this.state = 'disconnected'
   this.client.end()
   this.emit('disconnected')
 }
 
 // depricated lowercase name
-var actionheroClient = ActionheroClient
+var ActionheroWebsocketClient = ActionheroWebsocketClient;
+ActionheroWebsocketClient;
 
-exports.ActionheroClient = ActionheroClient; 
-exports.actionheroClient = actionheroClient; 
+exports.ActionheroWebsocketClient = ActionheroWebsocketClient; 
+exports.ActionheroWebsocketClient = ActionheroWebsocketClient; 
 })(typeof exports === 'undefined' ? window : exports);

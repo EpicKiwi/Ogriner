@@ -4,7 +4,7 @@
 
 exports['default'] = {
   servers: {
-    websocket: function (api) {
+    websocket: (api) => {
       return {
         enabled: true,
         // you can pass a FQDN (string) here or 'window.location.origin'
@@ -15,7 +15,7 @@ exports['default'] = {
         // the name of the client-side JS file to render.  Both `.js` and `.min.js` versions will be created
         // do not include the file exension
         // set to `undefined` to not render the client-side JS on boot
-        clientJsName: 'actionheroClient',
+        clientJsName: 'ActionheroWebsocketClient',
         // should the server signal clients to not reconnect when the server is shutdown/reboot
         destroyClientsOnShutdown: false,
 
@@ -49,6 +49,14 @@ exports['default'] = {
           // queueSize:        Infinity,
         }
       }
+    }
+  }
+}
+
+exports['test'] = {
+  servers: {
+    websocket: (api) => {
+      return { clientUrl: null }
     }
   }
 }
