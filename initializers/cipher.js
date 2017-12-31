@@ -38,8 +38,8 @@ module.exports = class CipherInitilizer extends ActionHero.Initializer {
     }
 
     this.cipherKey = JSON.parse(fs.readFileSync(keyLocation))
-    this.cipher = crypto.createCipheriv("aes128",this.cipherKey.key,this.cipherKey.key)
-    this.decipher = crypto.createDecipheriv("aes128",this.cipherKey.key,this.cipherKey.key)
+    this.cipher = crypto.createCipher("aes128",this.cipherKey.key)
+    this.decipher = crypto.createDecipher("aes128",this.cipherKey.key)
 
     ActionHero.api.log(`Loaded cipher key, fingerprint : ${this.cipherKey.fingerprint}`)
     ActionHero.api.cipher.fingerprint = this.cipherKey.fingerprint
