@@ -47,7 +47,6 @@ module.exports = class MyTask extends ActionHero.Task {
           ActionHero.api.log(`Check new ogrin rate history value with account ${account.username}`)
           let offers = await browser.getOgrinOffers()
           ActionHero.api.log(`${offers.length} ogrin offers`)
-          console.log(offers)
 
           let representativeOffer = null
           for(let offer of offers){
