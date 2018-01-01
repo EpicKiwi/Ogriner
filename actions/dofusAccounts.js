@@ -88,10 +88,15 @@ exports.GetOne = class GetOne extends ActionHero.Action {
 
     async run ({auth,response,params,connection}) {
         let account = await ActionHero.api.dofusAccount.model.findById(params.id)
+
+        if(!account){
+            connection.setStatusCode(404)
+            throw new Error(connection.localize("Dofus account not found"))
+        }
+
         let accountUser = await account.getUser()
 
-        if(!account ||
-           !accountUser ||
+        if(!accountUser ||
          (accountUser.id !== auth.user.id && auth.user.role !== "Admin")){
           connection.setStatusCode(404)
           throw new Error(connection.localize("Dofus account not found"))
@@ -101,6 +106,41 @@ exports.GetOne = class GetOne extends ActionHero.Action {
         account.password = undefined
         account.keyFingerprint = undefined
         response.dofusAccount = account
+    }
+}
+
+exports.ForceUpdate = class ForceUpdate extends ActionHero.Action {
+    constructor () {
+        super()
+        this.name = 'forceUpdateOneAccount'
+        this.description = 'Force update of the account'
+        this.outputExample = {
+            "scheduled" : true
+        }
+        this.inputs = {
+            id: {required: true}
+        }
+    }
+
+    async run ({auth,response,params,connection}) {
+        let account = await ActionHero.api.dofusAccount.model.findById(params.id)
+
+        if(!account){
+            connection.setStatusCode(404)
+            throw new Error(connection.localize("Dofus account not found"))
+        }
+
+        let accountUser = await account.getUser()
+
+        if(!accountUser ||
+            (accountUser.id !== auth.user.id && auth.user.role !== "Admin")){
+            connection.setStatusCode(404)
+            throw new Error(connection.localize("Dofus account not found"))
+        }
+
+        ActionHero.api.tasks.enqueue("updateAccountBalance",{accountId:account.id})
+
+        response.scheduled = true
     }
 }
 
@@ -187,6 +227,8 @@ exports.CreateOne = class CreateOne extends ActionHero.Action {
         })
 
         await account.setUser(user)
+
+        ActionHero.api.tasks.enqueue("updateAccountBalance",{accountId:account.id})
 
         account.password = undefined
         account.keyFingerprint = undefined

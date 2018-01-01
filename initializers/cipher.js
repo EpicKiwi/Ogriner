@@ -21,13 +21,11 @@ module.exports = class CipherInitilizer extends ActionHero.Initializer {
       ActionHero.api['cipher'] = {
         encryptString(encryptedString){
           const cipher = crypto.createCipher("aes128",this.cipherKey.key)
-          cipher.update(new Buffer(encryptedString))
-          return cipher.final("base64")
+          return cipher.update(encryptedString,"utf8","hex")+cipher.final("hex")
         },
         decryptString(rawString){
           const decipher = crypto.createDecipher("aes128",this.cipherKey.key)
-          decipher.update(new Buffer(rawString,"base64"))
-          return decipher.final().toString()
+          return decipher.update(rawString,"hex","utf8")+decipher.final("utf8")
         },
         generateKey() {
           let key = crypto.randomBytes(ActionHero.api.config.security.accountsCipher.keyLength)

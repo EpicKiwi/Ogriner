@@ -33,7 +33,8 @@ exports['default'] = {
           {path: "/users/:id", action: "oneUser"},
           {path: "/accounts", action: "selfAccounts"},
           {path: "/accounts/all", action: "allAccounts"},
-          {path: "/accounts/:id", action: "getOneAccount"}
+          {path: "/accounts/:id", action: "getOneAccount"},
+          {path: "/accounts/:id/update", action: "forceUpdateOneAccount"}
       ],
 
       post: [

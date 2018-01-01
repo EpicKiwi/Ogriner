@@ -17,11 +17,16 @@ module.exports = class MyInitializer extends ActionHero.Initializer {
         nickname: Sequelize.STRING,
         username: Sequelize.STRING,
         password: Sequelize.STRING,
-        keyFingerprint: Sequelize.STRING
+        keyFingerprint: Sequelize.STRING,
         invalidCredentials: Sequelize.BOOLEAN,
         ogrinBalance: Sequelize.INTEGER,
-        linkedOgrinBalance: Sequelize.INTEGER
-      })
+        linkedOgrinBalance: Sequelize.INTEGER,
+        lastCheck: Sequelize.DATE
+      }),
+      async invalidCredentials(account){
+          account.invalidCredentials = true
+          await account.save()
+      }
     }
 
     ActionHero.api.user.model.hasMany(ActionHero.api.dofusAccount.model)
