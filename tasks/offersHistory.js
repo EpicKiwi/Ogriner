@@ -8,7 +8,7 @@ module.exports = class MyTask extends ActionHero.Task {
     super()
     this.name = 'offersHistory'
     this.description = 'an actionhero task'
-    this.frequency = 120000
+    this.frequency = -1
     this.queue = 'browser'
     this.middleware = []
   }

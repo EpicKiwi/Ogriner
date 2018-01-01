@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  db:
+    image: postgres
+    ports:
+      - "5432:5432"
+  redis:
+    image: redis
+    ports:
+      - "6379:6379"
+  graphs:
+    image: grafana/grafana
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
