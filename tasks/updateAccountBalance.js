@@ -86,7 +86,7 @@ exports.UpdateAllAccounts = class UpdateAllAccounts extends ActionHero.Task {
         super()
         this.name = 'updateAllAccountsBalance'
         this.description = 'Update the balance of all the dofus accounts'
-        this.frequency = 300000
+        this.frequency = 1800000
         this.queue = 'low'
         this.middleware = []
     }
