@@ -6,7 +6,11 @@ exports['default'] = {
         return {
             loadDelay: 500,
             takeScreenshots: false,
-            screenshotsLocation: "./screenshots"
+            screenshotsLocation: "./screenshots",
+            representativeThresholds: {
+                ogrin: 10000,
+                kama: 10000000
+            }
         }
     }
 }
