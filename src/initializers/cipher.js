@@ -42,7 +42,7 @@ module.exports = class CipherInitilizer extends ActionHero.Initializer {
       fs.accessSync(keyLocation,fs.constants.W_OK)
     } catch(e) {
       ActionHero.api.log(`Generating new cipher key in ${keyLocation}`)
-      fs.writeFileSync(keyLocation,JSON.stringify(ActionHero.api.dofusAccount.generateKey()))
+      fs.writeFileSync(keyLocation,JSON.stringify(ActionHero.api.cipher.generateKey()))
     }
 
     ActionHero.api['cipher'].cipherKey = JSON.parse(fs.readFileSync(keyLocation))
