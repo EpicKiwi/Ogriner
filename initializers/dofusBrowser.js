@@ -20,5 +20,7 @@ module.exports = class MyInitializer extends ActionHero.Initializer {
   }
 
   async start () {}
-  async stop () {}
+  async stop () {
+    dbrowser.close()
+  }
 }

@@ -34,7 +34,9 @@ exports['default'] = {
           {path: "/accounts", action: "selfAccounts"},
           {path: "/accounts/all", action: "allAccounts"},
           {path: "/accounts/:id", action: "getOneAccount"},
-          {path: "/accounts/:id/update", action: "forceUpdateOneAccount"}
+          {path: "/accounts/:id/update", action: "forceUpdateOneAccount"},
+          {path: "/history/:type/from/:from/to/:to", action: "getPartHistory"},
+          {path: "/history/:id", action: "getOneHistoryValue"}
       ],
 
       post: [
