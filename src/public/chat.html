@@ -3,11 +3,11 @@
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <meta http-equiv="content-language" content="en" />
     <meta name="description" content="actionhero.js" />
-    <link href='/public/css/cosmo.css' rel='stylesheet' type='text/css'>
-    <link rel="icon" href="/public/favicon.ico">
+    <link href='/src/publicblic/css/cosmo.css' rel='stylesheet' type='text/css'>
+    <link rel="icon" href="/src/public/favicon.ico">
     <title>actionhero.js</title>
 
-    <script type="text/javascript" src="/public/javascript/ActionheroWebsocketClient.min.js"></script>
+    <script type="text/javascript" src="/src/publicblic/javascript/ActionheroWebsocketClient.min.js"></script>
 
     <script type="text/javascript">
 
@@ -48,7 +48,7 @@
       s += "<pre>"
       if (message.welcome != null){
         s += "<div align=\"center\">*** " + message.welcome + " ***</div>";
-        s += "<div align=\"center\"><img src=\"/public/logo/actionhero.png\" width=\"100\" /></div>";
+        s += "<div align=\"center\"><img src=\"/src/publicblic/logo/actionhero.png\" width=\"100\" /></div>";
       }else{
         s += "<span style=\" font-size:10px; color:#" + intToARGB(hashCode(message.from)) + "\">"
         if(message.me === true){ s += "<strong>"; }

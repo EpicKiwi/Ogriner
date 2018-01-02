@@ -59,6 +59,6 @@ typings/
 .env
 .idea
 
-config/encryptionkey.json
+src/config/encryptionkey.json
 
 screenshots

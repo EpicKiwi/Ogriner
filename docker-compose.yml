@@ -5,6 +5,8 @@ services:
     image: postgres
     ports:
       - "5432:5432"
+    volumes:
+      - "./pgdata:/var/lib/postgresql/data"
   redis:
     image: redis
     ports:
@@ -15,3 +17,10 @@ services:
       - "3000:3000"
     depends_on:
       - db
+  ogriner:
+    build: "./docker-ogriner"
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+      - redis
