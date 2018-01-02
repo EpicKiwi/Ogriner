@@ -10,10 +10,6 @@ module.exports = class CipherInitilizer extends ActionHero.Initializer {
     this.loadPriority = 1010
     this.startPriority = 1010
     this.stopPriority = 1010
-    this.cipherKey = {
-      key: null,
-      fingerprint: null
-    }
   }
 
   async initialize () {
@@ -49,8 +45,7 @@ module.exports = class CipherInitilizer extends ActionHero.Initializer {
     ActionHero.api['cipher'].cipherKey.fingerprint = ActionHero.api.cipher.computeFingerprint(
         ActionHero.api['cipher'].cipherKey.key)
 
-    ActionHero.api.log(`Loaded cipher key, fingerprint : ${this.cipherKey.fingerprint}`)
-    ActionHero.api.cipher.fingerprint = this.cipherKey.fingerprint
+    ActionHero.api.log(`Loaded cipher key, fingerprint : ${ActionHero.api['cipher'].cipherKey.fingerprint}`)
   }
 
   async start () {}
