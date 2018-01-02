@@ -73,7 +73,7 @@ module.exports = class MyTask extends ActionHero.Task {
           } catch(e) {
               if(attempt <= ActionHero.api.config.scrapper.maxRetryAttempts) {
                   ActionHero.api.log("Error while updating Ogrins offers, retrying", 'error', e)
-                  api.tasks.enqueue("offersHistory", {ogrin: true, kama: false, attempt: attempt + 1})
+                  ActionHero.api.tasks.enqueue("offersHistory", {ogrin: true, kama: false, attempt: attempt + 1})
               } else {
                   throw e
               }
@@ -108,7 +108,7 @@ module.exports = class MyTask extends ActionHero.Task {
           } catch(e) {
               if(attempt <= ActionHero.api.config.scrapper.maxRetryAttempts) {
                   ActionHero.api.log("Error while updating Kama offers, retrying", 'error', e)
-                  api.tasks.enqueue("offersHistory", {ogrin: false, kama: true, attempt: attempt + 1})
+                  ActionHero.api.tasks.enqueue("offersHistory", {ogrin: false, kama: true, attempt: attempt + 1})
               } else {
                   throw e
               }
