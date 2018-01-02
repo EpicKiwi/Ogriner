@@ -8,7 +8,8 @@ services:
     volumes:
       - "./pgdata:/var/lib/postgresql/data"
     environment:
-      - POSTGRES_PASSWORD: root
+      - "POSTGRES_PASSWORD=root"
+      - "POSTGRES_DB=ogriner"
   redis:
     image: redis
     ports:
@@ -23,6 +24,11 @@ services:
     build: "./docker-ogriner"
     ports:
       - "8080:8080"
+    volumes:
+      - "./src:/home/ogriner"
+    environment:
+      - "REDIS_HOST=redis"
+      - "DATABASE_HOST=db"
     depends_on:
       - db
       - redis

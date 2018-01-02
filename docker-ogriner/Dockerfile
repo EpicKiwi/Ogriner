@@ -1,11 +1,11 @@
 FROM node
 
-RUN cd /home && \
-    git clone "https://github.com/EpicKiwi/Ogriner.git"
+RUN mkdir /home/ogriner
 
-RUN cd /home/Ogriner/src && \
-    npm i
+COPY "phantomjs" "/usr/bin/phantomjs"
 
-WORKDIR /home/Ogriner/src
+VOLUME /home/ogriner
+
+WORKDIR /home/ogriner
 
 ENTRYPOINT ["npm","run","start"]
