@@ -1,7 +1,7 @@
 exports['default'] = {
     database: (api) => {
         return {
-            host: process.env.DATABASE_HOST ? process.env.DATABASE_HOST : "localhost",
+            host: process.env.DATABASE_HOST ? process.env.DATABASE_HOST : "db",
             port: process.env.DATABASE_PORT ? process.env.DATABASE_PORT : 5432,
             dialect: "postgres",
             database: "ogriner",

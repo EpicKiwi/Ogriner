@@ -1,11 +1,11 @@
 FROM node
 
-RUN mkdir /home/ogriner && \
-    git clone
+RUN cd /home && \
+    git clone "https://github.com/EpicKiwi/Ogriner.git"
 
-RUN cd /home/ogriner && \
+RUN cd /home/Ogriner/src && \
     npm i
 
-WORKDIR /home/ogriner
+WORKDIR /home/Ogriner/src
 
 ENTRYPOINT ["npm","run","start"]
