@@ -59,7 +59,7 @@ typings/
 .env
 .idea
 
-src/config/encryptionkey.json
+encryptionkey.json
 
 screenshots
 pgdata
