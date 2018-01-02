@@ -10,7 +10,8 @@ exports['default'] = {
             representativeThresholds: {
                 ogrin: 10000,
                 kama: 10000000
-            }
+            },
+            maxRetryAttempts: 5
         }
     }
 }

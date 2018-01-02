@@ -16,6 +16,7 @@ module.exports = class MyTask extends ActionHero.Task {
   async run (data) {
       let browser = ActionHero.api.dofusBrowser
       let thresholds = ActionHero.api.config.scrapper.representativeThresholds
+      let attempt = data.attempt ? data.attempt : 1
 
       ActionHero.api.log("Check new rate history value with random valid account")
       let accounts = await ActionHero.api.dofusAccount.model.findAll({
@@ -44,56 +45,74 @@ module.exports = class MyTask extends ActionHero.Task {
       await browser.selectServer(availableServers[0].id)
 
       if(data.ogrin === undefined || data.ogrin){
-          ActionHero.api.log(`Check new ogrin rate history value with account ${account.username}`)
-          let offers = await browser.getOgrinOffers()
-          ActionHero.api.log(`${offers.length} ogrin offers`)
+          try {
+              ActionHero.api.log(`Check new ogrin rate history value with account ${account.username}`)
+              let offers = await browser.getOgrinOffers()
+              ActionHero.api.log(`${offers.length} ogrin offers`)
 
-          let representativeOffer = null
-          for(let offer of offers){
-            if(!representativeOffer || offer.ogrins > representativeOffer.ogrins)
-              representativeOffer = offer
-            if(offer.ogrins > thresholds.ogrin) {
-                representativeOffer = offer
-                break;
-            }
+              let representativeOffer = null
+              for (let offer of offers) {
+                  if (!representativeOffer || offer.ogrins > representativeOffer.ogrins)
+                      representativeOffer = offer
+                  if (offer.ogrins > thresholds.ogrin) {
+                      representativeOffer = offer
+                      break;
+                  }
+              }
+
+              let register = await ActionHero.api.history.model.create({
+                  date: Date.now(),
+                  maxRate: this.computeMaxRate(offers),
+                  minRate: this.computeMinRate(offers),
+                  averageRate: this.computeAverageRate(offers),
+                  representativeRate: representativeOffer.rate,
+                  dataType: "Ogrin"
+              })
+
+              await register.setDofusAccount(account)
+          } catch(e) {
+              if(attempt <= ActionHero.api.config.scrapper.maxRetryAttempts) {
+                  ActionHero.api.log("Error while updating Ogrins offers, retrying", 'error', e)
+                  api.tasks.enqueue("offersHistory", {ogrin: true, kama: false, attempt: attempt + 1})
+              } else {
+                  throw e
+              }
           }
-
-          let register = await ActionHero.api.history.model.create({
-              date: Date.now(),
-              maxRate: this.computeMaxRate(offers),
-              minRate: this.computeMinRate(offers),
-              averageRate: this.computeAverageRate(offers),
-              representativeRate: representativeOffer.rate,
-              dataType: "Ogrin"
-          })
-          
-          await register.setDofusAccount(account)
       }
 
       if(data.kama === undefined || data.kama){
-          ActionHero.api.log(`Check new kama rate history value with account ${account.username}`)
-          let offers = await browser.getKamaOffers()
-          ActionHero.api.log(`${offers.length} kama offers`)
-          let representativeOffer = null
-          for(let offer of offers){
-              if(!representativeOffer || offer.kamas > representativeOffer.kama)
-                  representativeOffer = offer
-              if(offer.kamas > thresholds.kama) {
-                  representativeOffer = offer
-                  break;
+          try {
+              ActionHero.api.log(`Check new kama rate history value with account ${account.username}`)
+              let offers = await browser.getKamaOffers()
+              ActionHero.api.log(`${offers.length} kama offers`)
+              let representativeOffer = null
+              for (let offer of offers) {
+                  if (!representativeOffer || offer.kamas > representativeOffer.kama)
+                      representativeOffer = offer
+                  if (offer.kamas > thresholds.kama) {
+                      representativeOffer = offer
+                      break;
+                  }
+              }
+
+              let register = await ActionHero.api.history.model.create({
+                  date: Date.now(),
+                  maxRate: this.computeMaxRate(offers),
+                  minRate: this.computeMinRate(offers),
+                  averageRate: this.computeAverageRate(offers),
+                  representativeRate: representativeOffer.rate,
+                  dataType: "Kama"
+              })
+
+              await register.setDofusAccount(account)
+          } catch(e) {
+              if(attempt <= ActionHero.api.config.scrapper.maxRetryAttempts) {
+                  ActionHero.api.log("Error while updating Kama offers, retrying", 'error', e)
+                  api.tasks.enqueue("offersHistory", {ogrin: false, kama: true, attempt: attempt + 1})
+              } else {
+                  throw e
               }
           }
-
-          let register = await ActionHero.api.history.model.create({
-              date: Date.now(),
-              maxRate: this.computeMaxRate(offers),
-              minRate: this.computeMinRate(offers),
-              averageRate: this.computeAverageRate(offers),
-              representativeRate: representativeOffer.rate,
-              dataType: "Kama"
-          })
-
-          await register.setDofusAccount(account)
       }
 
       await browser.logout()
