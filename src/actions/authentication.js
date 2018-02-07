@@ -18,10 +18,10 @@ exports.Authenticate = class Authenticate extends ActionHero.Action {
       this.inputs = {
           email: {
               required: true,
-              validator(param,connection){
+              validator(param,{connection}){
                   if(!param.match(/.+@.+\..+/)) {
                       connection.setStatusCode(400)
-                      throw new Error(connection.localize("Must be a valid email address"))
+                      throw new Error(connection.localize("Email must be a valid email address"))
                   }
               }
           },
@@ -48,8 +48,6 @@ exports.Authenticate = class Authenticate extends ActionHero.Action {
           expires: new Date(new Date().getTime() + ActionHero.api.config.security.tokenLifetime)
       })
       await token.setUser(existingUser)
-
-      console.log(token)
       token.dataValues["id"] = undefined
       response.token = token.dataValues
   }

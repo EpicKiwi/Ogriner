@@ -22,6 +22,11 @@ module.exports = class MyTask extends ActionHero.Task {
       let accounts = await ActionHero.api.dofusAccount.model.findAll({
           where: { invalidCredentials: { [Op.ne]: true }}
       })
+
+      if(accounts.length < 1){
+          throw new Error("No valid Dofus account available")
+      }
+
       let account = accounts[Math.floor(Math.random()*accounts.length)]
 
       ActionHero.api.log(`Check new rate history value with account ${account.username}`)

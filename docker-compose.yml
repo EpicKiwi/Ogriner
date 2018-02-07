@@ -20,15 +20,15 @@ services:
       - "3000:3000"
     depends_on:
       - db
-  ogriner:
-    build: "./docker-ogriner"
-    ports:
-      - "8080:8080"
-    volumes:
-      - "./src:/home/ogriner"
-    environment:
-      - "REDIS_HOST=redis"
-      - "DATABASE_HOST=db"
-    depends_on:
-      - db
-      - redis
+#  ogriner:
+#    build: "./docker-ogriner"
+#    ports:
+#      - "8080:8080"
+#    volumes:
+#      - "./src:/home/ogriner"
+#    environment:
+#      - "REDIS_HOST=redis"
+#      - "DATABASE_HOST=db"
+#    depends_on:
+#      - db
+#      - redis

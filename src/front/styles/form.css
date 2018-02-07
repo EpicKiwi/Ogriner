@@ -1,0 +1,53 @@
+.form-control {
+    width: 100%;
+    display: block;
+    padding-bottom: 20px;
+}
+
+.form-control input, .form-control label, .form-control textarea {
+    width: 100%;
+    display: block;
+}
+
+.form-control label {
+    padding-bottom: 10px;
+}
+
+.form-control input, .form-control textarea {
+    outline: none;
+    padding: 5px;
+    background-color: #292424;
+    border: none;
+    border-bottom: solid 2px #f6e9e9;
+    border-radius: 5px 5px 0 0;
+}
+
+.form-control input:disabled, .form-control textarea:disabled {
+    color: #b4a7a7;
+    border-color: #b4a7a7;
+}
+
+.form-control input:focus, .form-control textarea:focus {
+    border-color: #e16428;
+}
+
+.form-control input:invalid, .form-control textarea:invalid {
+    border-color: #e13526;
+}
+
+.button{
+    padding: 5px;
+    border: none;
+}
+
+.button:disabled {
+    background-color: #b4a7a7;
+}
+
+.primary-button {
+    background-color: #e16428;
+}
+
+.submit-bar {
+    text-align: center;
+}

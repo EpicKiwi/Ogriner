@@ -63,3 +63,7 @@ encryptionkey.json
 
 screenshots
 pgdata
+
+/src/public/javascript/ActionheroWebsocketClient.js
+/src/public/app.js.map
+/src/public/app.js

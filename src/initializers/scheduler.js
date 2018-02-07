@@ -21,7 +21,7 @@ module.exports = class MyInitializer extends ActionHero.Initializer {
     let api = ActionHero.api
 
     api.scheduler.scheduledJobs.push(schedule.scheduleJob(
-        "0 * * * * *",
+        "0 */5 * * * *",
         async () => {
           let api = ActionHero.api
           if(api.resque.scheduler && api.resque.scheduler.master){
